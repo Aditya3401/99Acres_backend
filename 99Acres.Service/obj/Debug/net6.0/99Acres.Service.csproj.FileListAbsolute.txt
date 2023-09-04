@@ -1,0 +1,12 @@
+C:\Users\HP\source\repos\99Acres\99Acres.Service\bin\Debug\net6.0\99Acres.Service.deps.json
+C:\Users\HP\source\repos\99Acres\99Acres.Service\bin\Debug\net6.0\99Acres.Service.dll
+C:\Users\HP\source\repos\99Acres\99Acres.Service\bin\Debug\net6.0\99Acres.Service.pdb
+C:\Users\HP\source\repos\99Acres\99Acres.Service\obj\Debug\net6.0\99Acres.Service.csproj.AssemblyReference.cache
+C:\Users\HP\source\repos\99Acres\99Acres.Service\obj\Debug\net6.0\99Acres.Service.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\HP\source\repos\99Acres\99Acres.Service\obj\Debug\net6.0\99Acres.Service.AssemblyInfoInputs.cache
+C:\Users\HP\source\repos\99Acres\99Acres.Service\obj\Debug\net6.0\99Acres.Service.AssemblyInfo.cs
+C:\Users\HP\source\repos\99Acres\99Acres.Service\obj\Debug\net6.0\99Acres.Service.csproj.CoreCompileInputs.cache
+C:\Users\HP\source\repos\99Acres\99Acres.Service\obj\Debug\net6.0\99Acres.Service.dll
+C:\Users\HP\source\repos\99Acres\99Acres.Service\obj\Debug\net6.0\refint\99Acres.Service.dll
+C:\Users\HP\source\repos\99Acres\99Acres.Service\obj\Debug\net6.0\99Acres.Service.pdb
+C:\Users\HP\source\repos\99Acres\99Acres.Service\obj\Debug\net6.0\ref\99Acres.Service.dll

@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\99Acres.WebApi.props" />
+</Project>

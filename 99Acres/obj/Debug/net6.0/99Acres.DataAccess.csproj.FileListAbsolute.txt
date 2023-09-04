@@ -1,0 +1,15 @@
+C:\Users\HP\source\repos\99Acres\99Acres\bin\Debug\net6.0\99Acres.DataAccess.deps.json
+C:\Users\HP\source\repos\99Acres\99Acres\bin\Debug\net6.0\99Acres.DataAccess.dll
+C:\Users\HP\source\repos\99Acres\99Acres\bin\Debug\net6.0\99Acres.DataAccess.pdb
+C:\Users\HP\source\repos\99Acres\99Acres\bin\Debug\net6.0\99Acres.Service.dll
+C:\Users\HP\source\repos\99Acres\99Acres\bin\Debug\net6.0\99Acres.Service.pdb
+C:\Users\HP\source\repos\99Acres\99Acres\obj\Debug\net6.0\99Acres.DataAccess.csproj.AssemblyReference.cache
+C:\Users\HP\source\repos\99Acres\99Acres\obj\Debug\net6.0\99Acres.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\HP\source\repos\99Acres\99Acres\obj\Debug\net6.0\99Acres.DataAccess.AssemblyInfoInputs.cache
+C:\Users\HP\source\repos\99Acres\99Acres\obj\Debug\net6.0\99Acres.DataAccess.AssemblyInfo.cs
+C:\Users\HP\source\repos\99Acres\99Acres\obj\Debug\net6.0\99Acres.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\HP\source\repos\99Acres\99Acres\obj\Debug\net6.0\99Acres.DataAccess.csproj.CopyComplete
+C:\Users\HP\source\repos\99Acres\99Acres\obj\Debug\net6.0\99Acres.DataAccess.dll
+C:\Users\HP\source\repos\99Acres\99Acres\obj\Debug\net6.0\refint\99Acres.DataAccess.dll
+C:\Users\HP\source\repos\99Acres\99Acres\obj\Debug\net6.0\99Acres.DataAccess.pdb
+C:\Users\HP\source\repos\99Acres\99Acres\obj\Debug\net6.0\ref\99Acres.DataAccess.dll
