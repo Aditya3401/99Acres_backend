@@ -12,5 +12,6 @@ namespace _99Acres.Service.Interface.UserInterface
     {
         public Task<UserRegisterResponse> RegisterUser(UserRegisterRequest request);
         public Task<UserLoginResponse> LoginUser(UserLoginRequest request);
+        public Task<ForgotPasswordResponse> ForgotPassword(ForgotPasswordRequest request);
     }
 }

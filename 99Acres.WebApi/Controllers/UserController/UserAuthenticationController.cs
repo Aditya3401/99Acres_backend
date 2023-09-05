@@ -11,6 +11,7 @@ namespace _99Acres.WebApi.Controllers.UserController
     public class UserAuthenticationController : Controller
     {
         public readonly IUserAuthentication _userAuthentication;
+        
         public UserAuthenticationController(IUserAuthentication userAuthentication)
         {
             _userAuthentication = userAuthentication;
@@ -44,6 +45,24 @@ namespace _99Acres.WebApi.Controllers.UserController
             {
                 response = await _userAuthentication.LoginUser(request);
 
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordRequest request)
+        {
+            ForgotPasswordResponse response = new ForgotPasswordResponse();
+            try
+            {
+                response = await _userAuthentication.ForgotPassword(request);
             }
             catch (Exception ex)
             {

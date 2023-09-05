@@ -18,6 +18,7 @@ builder.Services.AddSwaggerGen();
 #region Dependency Injection
 builder.Services.AddScoped<IUserAuthentication, UserAuthentication>();
 builder.Services.AddScoped<IPostProperty, PostPropertyService>();
+builder.Services.AddScoped<ISearch, SearchPropertyService>();
 #endregion
 
 
