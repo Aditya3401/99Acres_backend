@@ -50,3 +50,13 @@ C:\Users\HP\source\repos\99Acres\99Acres.WebApi\bin\Debug\net6.0\Microsoft.Ident
 C:\Users\HP\source\repos\99Acres\99Acres.WebApi\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\HP\source\repos\99Acres\99Acres.WebApi\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\HP\source\repos\99Acres\99Acres.WebApi\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\HP\source\repos\99Acres\99Acres.WebApi\bin\Debug\net6.0\BCrypt.Net-Next.dll
+C:\Users\HP\source\repos\99Acres\99Acres.WebApi\bin\Debug\net6.0\BouncyCastle.Cryptography.dll
+C:\Users\HP\source\repos\99Acres\99Acres.WebApi\bin\Debug\net6.0\MailKit.dll
+C:\Users\HP\source\repos\99Acres\99Acres.WebApi\bin\Debug\net6.0\MimeKit.dll
+C:\Users\HP\source\repos\99Acres\99Acres.WebApi\bin\Debug\net6.0\NETCore.MailKit.dll
+C:\Users\HP\source\repos\99Acres\99Acres.WebApi\bin\Debug\net6.0\System.Formats.Asn1.dll
+C:\Users\HP\source\repos\99Acres\99Acres.WebApi\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\HP\source\repos\99Acres\99Acres.WebApi\bin\Debug\net6.0\System.Text.Encoding.CodePages.dll
+C:\Users\HP\source\repos\99Acres\99Acres.WebApi\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\HP\source\repos\99Acres\99Acres.WebApi\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Text.Encoding.CodePages.dll
