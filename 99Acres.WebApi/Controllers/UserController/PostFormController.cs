@@ -6,7 +6,7 @@ namespace _99Acres.WebApi.Controllers.UserController
 {
     [Route("api/[controller]/[Action]")]
     [ApiController]
-    
+
     public class PostFormController : Controller
     {
         public readonly IPostProperty _postproperty;
@@ -15,7 +15,7 @@ namespace _99Acres.WebApi.Controllers.UserController
             _postproperty = postproperty;
         }
         [HttpPost]
-        public async  Task<IActionResult> PostFormEntry([FromForm] PostPropertyRecord record)
+        public async Task<IActionResult> PostFormEntry([FromForm] PostPropertyRecord record)
         {
             if (!ModelState.IsValid)
             {
@@ -24,7 +24,7 @@ namespace _99Acres.WebApi.Controllers.UserController
 
             try
             {
-                int propertyId =await _postproperty.PostPropertyDetails(record);
+                string propertyId = await _postproperty.PostPropertyDetails(record);
                 return Ok(propertyId);
             }
             catch (Exception ex)

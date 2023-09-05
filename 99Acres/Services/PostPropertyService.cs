@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace _99Acres.Services
 {
-    public  class PostPropertyService : IPostProperty
+    public class PostPropertyService : IPostProperty
     {
         public readonly IConfiguration _configuration;
         public readonly SqlConnection _mySqlConnection;
@@ -26,56 +26,31 @@ namespace _99Acres.Services
             _webHostEnvironment = webHostEnvironment;
 
         }
-        public async Task<int> PostPropertyDetails(PostPropertyRecord record)
+
+        [HttpPost]
+        public async Task<string> PostPropertyDetails(PostPropertyRecord record)
         {
-           
-               
-                using (SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("MyDBConnection")))
-                {
-                    connection.Open();
+            try
+            {
+                string ImageName = await saveImage(record.ImageFile);
+                SqlConnection con = new SqlConnection(_configuration.GetConnectionString("MyDBConnection"));
 
-                    using (SqlTransaction transaction = connection.BeginTransaction())
-                    {
-                        try
-                        {
-                            string insertQuery = "Insert into PostProperty(PropertyOptions, PropertyType, PropertyArea, State, City, Price, ContactNo, Email, ImageUrl, ImageFile)Values(@PropertyOptions, @PropertyType, @PropertyArea, @State, @City, @Price, @ContactNo, @Email, @ImageUrl, @ImageFile)";
-
-                            using (SqlCommand command = new SqlCommand(insertQuery, connection, transaction))
-                            {
-
-                                command.Parameters.AddWithValue("@PropertyOptions", record.PropertyOptions);
-                                command.Parameters.AddWithValue("@PropertyType", record.PropertyType);
-                                command.Parameters.AddWithValue("@PropertyArea", record.PropertyArea);
-                                command.Parameters.AddWithValue("@State", record.State);
-                                command.Parameters.AddWithValue("@City", record.City);
-                                command.Parameters.AddWithValue("@Price", record.Price);
-                                command.Parameters.AddWithValue("@ContactNo", record.ContactNo);
-                                command.Parameters.AddWithValue("@Email", record.Email);
-                                record.ImageUrl = await saveImage(record.ImageFile);
-                                command.Parameters.AddWithValue("@ImageUrl", record.ImageUrl);
-                                command.Parameters.AddWithValue("@ImageFie", record.ImageFile);
-
-
-                                command.ExecuteNonQuery();
-
-                                transaction.Commit();
-
-                                return record.PropertyId;  // Assuming OperatorId is the generated ID from NewOperatorEntry table
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            transaction.Rollback();
-                            throw ex;
-                        }
-                    }
-                }
+                SqlCommand cmd = new SqlCommand("insert into PostForm values(' " + record.PropertyOptions + " ', ' " + record.PropertyType + " ',' " + record.PropertyArea + " ','" + record.Address + "','" + record.State + "','" + record.City + "','" + record.Price + "','" + record.ContactNo + "','" + record.Email + "','" + ImageName + "',' " + record.ImageFile + " ')", con);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+                return "Post Property add successfully";
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         [NonAction]
         public async Task<string> saveImage(IFormFile Imagefile)
         {
             string imageName = new String(Path.GetFileNameWithoutExtension(Imagefile.FileName).Take(10).ToArray()).Replace(' ', '-');
-            imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(Imagefile.FileName);
+            imageName = imageName + DateTime.Now.ToString(" yymmssfff") + Path.GetExtension(Imagefile.FileName);
             var imagePath = Path.Combine(_webHostEnvironment.ContentRootPath, "Images", imageName);
 
             using (var fileStream = new FileStream(imagePath, FileMode.Create))
