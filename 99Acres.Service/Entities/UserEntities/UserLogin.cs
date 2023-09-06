@@ -14,6 +14,7 @@ namespace _99Acres.Service.Entities.UserEntities
 
         [Required(ErrorMessage = "Password Is Mandetory")]
         public string Password { get; set; }
+      
     }
 
     public class UserLoginResponse
@@ -28,6 +29,8 @@ namespace _99Acres.Service.Entities.UserEntities
     {
         public int UserId { get; set; }
         public string Email { get; set; }
+        public string UserName { get; set; }
+        public string ContactNo { get; set; }
   
     }
 }

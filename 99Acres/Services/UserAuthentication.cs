@@ -112,7 +112,7 @@ namespace _99Acres.Services
                     await _mySqlConnection.OpenAsync();
                 }
 
-                string SqlQuery = @"SELECT UserId, Email, Password
+                string SqlQuery = @"SELECT UserId, Email, Password, UserName, ContactNo
                             FROM Users
                             WHERE Email = @Email";
 
@@ -122,6 +122,7 @@ namespace _99Acres.Services
                     sqlCommand.CommandTimeout = 180;
 
                     sqlCommand.Parameters.AddWithValue("@Email", request.Email);
+                   
 
                     using (DbDataReader dataReader = await sqlCommand.ExecuteReaderAsync())
                     {
@@ -139,6 +140,8 @@ namespace _99Acres.Services
 
                                 response.data.UserId = Convert.ToInt32(dataReader["UserId"]);
                                 response.data.Email = dataReader["Email"].ToString();
+                                response.data.UserName = dataReader["UserName"].ToString();
+                                response.data.ContactNo = dataReader["ContactNo"].ToString();
 
                                 response.UserToken.JWTToken = tokenGenerate.GenerateJWTToken(response.data.UserId);
                                 response.UserToken.UserRefreshToken = tokenGenerate.GenerateRefresh();
