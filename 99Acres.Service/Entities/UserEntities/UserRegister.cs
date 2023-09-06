@@ -9,8 +9,8 @@ namespace _99Acres.Service.Entities.User
 {
     public class UserRegisterRequest
     {
-        [Required(ErrorMessage = "UserId Is Mandetory")]
-        public int UsertId { get; set; }
+        /*[Required(ErrorMessage = "UserId Is Mandetory")]
+        public int UsertId { get; set; }*/
         [Required(ErrorMessage = "UserName Is Mandetory")]
         public string UserName { get; set; }
         [Required(ErrorMessage = "Email Is Mandetory")]

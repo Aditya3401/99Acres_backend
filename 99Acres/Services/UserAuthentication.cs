@@ -41,6 +41,22 @@ namespace _99Acres.Services
                     await _mySqlConnection.OpenAsync();
                 }
 
+                string checkEmailQuery = "SELECT COUNT(*) FROM Users WHERE Email = @Email";
+
+                using (SqlCommand checkEmailCommand = new SqlCommand(checkEmailQuery, _mySqlConnection))
+                {
+                    checkEmailCommand.Parameters.AddWithValue("@Email", request.Email);
+                    int emailCount = (int)await checkEmailCommand.ExecuteScalarAsync();
+
+                    if (emailCount > 0)
+                    {
+                        response.IsSuccess = false;
+                        response.Message = "Email already exists";
+                        return response;
+                    }
+                }
+
+
                 string SqlQuery = @"INSERT INTO Users 
                                     (UserName,Password,Email,ContactNo) Values 
                                     (@UserName, @Password,@Email,@ContactNo);";
@@ -193,13 +209,14 @@ namespace _99Acres.Services
 
 
                             response.data.Email = dataReader[0].ToString();
+                            dataReader.Close();
 
                             /*string resetToken = GenerateResetToken();*/
                             (string resetToken, DateTime tokenCreationTime) = GenerateResetTokenWithTime();
                             await StoreResetTokenInDatabase(response.data.Email, resetToken, tokenCreationTime);
 
                             SendResetEmail(response.data.Email, resetToken);
-
+                            dataReader.Close();
 
                             return response;
                         }
@@ -232,16 +249,7 @@ namespace _99Acres.Services
 
 
 
-        //generate reset token 
-        /*public string GenerateResetToken()
-        {
-            var randomNumber = new byte[32];
-            using (var randomNumberGenerator = RandomNumberGenerator.Create())
-            {
-                randomNumberGenerator.GetBytes(randomNumber);
-                return Convert.ToBase64String(randomNumber);
-            }
-        }*/
+        
         public (string Token, DateTime CreationTime) GenerateResetTokenWithTime()
         {
             var randomNumber = new byte[32];
@@ -285,7 +293,7 @@ namespace _99Acres.Services
         {
             try
             {
-                string updateQuery = @"UPDATE Employee
+                string updateQuery = @"UPDATE Users
                                SET ResetToken = @ResetToken, TokenCreationTime = @TokenCreationTime
                                WHERE Email = @Email";
 
@@ -306,5 +314,97 @@ namespace _99Acres.Services
                 Console.WriteLine($"An error occurred while storing reset token: {ex.Message}");
             }
         }
+
+
+
+        public async Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest request)
+        {
+            request.Password = BCrypt.Net.BCrypt.HashPassword(request.Password);
+            ResetPasswordResponse response = new ResetPasswordResponse();
+            response.IsSuccess = true;
+            response.Message = "SuccessFul";
+            try
+            {
+                if (_mySqlConnection.State != System.Data.ConnectionState.Open)
+                {
+                    await _mySqlConnection.OpenAsync();
+                }
+
+                if (await IsValidResetToken(request.ResetToken))
+                {
+                    string SqlQuery = "UPDATE Users SET Password = @Password WHERE ResetToken = @ResetToken";
+
+                    using (SqlCommand sqlCommand = new SqlCommand(SqlQuery, _mySqlConnection))
+                    {
+                        sqlCommand.CommandType = System.Data.CommandType.Text;
+                        sqlCommand.CommandTimeout = 180;
+
+                        sqlCommand.Parameters.AddWithValue("@Password", request.Password);
+                        sqlCommand.Parameters.AddWithValue("@ResetToken", request.ResetToken);
+
+                        int rowsAffected = await sqlCommand.ExecuteNonQueryAsync();
+
+                        if (rowsAffected > 0)
+                        {
+                            response.IsSuccess = true;
+                            response.Message = "Password reset successful";
+                        }
+                        else
+                        {
+                            response.Message = "Password reset failed";
+                        }
+                    }
+                }
+                else
+                {
+                    response.Message = "Invalid reset token";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+            finally
+            {
+
+
+                await _mySqlConnection.CloseAsync();
+                await _mySqlConnection.DisposeAsync();
+            }
+
+            return response;
+        }
+
+        private async Task<bool> IsValidResetToken(string resetToken)
+        {
+            try
+            {
+                if (_mySqlConnection.State != System.Data.ConnectionState.Open)
+                {
+                    await _mySqlConnection.OpenAsync();
+                }
+
+                string sqlQuery = "SELECT COUNT(*) FROM Users WHERE ResetToken = @ResetToken";
+
+                using (SqlCommand sqlCommand = new SqlCommand(sqlQuery, _mySqlConnection))
+                {
+                    sqlCommand.CommandType = System.Data.CommandType.Text;
+                    sqlCommand.Parameters.AddWithValue("@ResetToken", resetToken);
+
+                    int count = Convert.ToInt32(await sqlCommand.ExecuteScalarAsync());
+
+                    return count > 0;
+                }
+            }
+            catch (Exception)
+            {
+                // Handle exceptions if needed
+                return false;
+            }
+
+        }
+
     }
 }

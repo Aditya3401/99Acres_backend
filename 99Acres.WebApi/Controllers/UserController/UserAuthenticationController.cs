@@ -72,5 +72,23 @@ namespace _99Acres.WebApi.Controllers.UserController
 
             return Ok(response);
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
+        {
+            ResetPasswordResponse response = new ResetPasswordResponse();
+            try
+            {
+                response = await _userAuthentication.ResetPassword(request);
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+
+            return Ok(response);
+        }
     }
 }
