@@ -1,4 +1,5 @@
 ﻿using _99Acres.Service.Entities.PostProperty;
+using _99Acres.Service.Entities.User;
 using _99Acres.Service.Interface.UserInterface;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -28,36 +29,68 @@ namespace _99Acres.Services
         }
 
         [HttpPost]
-        public async Task<string> PostPropertyDetails(PostPropertyRecord record)
+        public async Task<PostPropertyResponse> PostPropertyDetails(PostPropertyRecord request)
         {
+            
+            PostPropertyResponse response = new PostPropertyResponse();
+            response.IsSuccess = true;
+            response.Message = "SuccessFul";
+
             try
             {
-                string ImageName = await saveImage(record.ImageFile);
-                SqlConnection con = new SqlConnection(_configuration.GetConnectionString("MyDBConnection"));
 
-                SqlCommand cmd = new SqlCommand("insert into PostForm values(' " + record.PropertyOptions + " ', ' " + record.PropertyType + " ',' " + record.PropertyArea + " ','" + record.Address + "','" + record.State + "','" + record.City + "','" + record.Price + "','" + record.ContactNo + "','" + record.Email + "','" + ImageName + "',' " + record.ImageFile + " ')", con);
-                con.Open();
-                cmd.ExecuteNonQuery();
-                con.Close();
-                return "Post Property add successfully";
+                if (_mySqlConnection.State != System.Data.ConnectionState.Open)
+                {
+                    await _mySqlConnection.OpenAsync();
+                }
+
+                string SqlQuery = @"INSERT INTO PostForm 
+                                    (PropertyOptions,PropertyType,PropertyArea,Address,State,City,Price,ContactNo,Email,ImageProperty) Values 
+                                    (@PropertyOptions, @PropertyType,@PropertyArea, @Address, @State, @City, @Price, @ContactNo, @Email, @ImageProperty);";
+
+                using (SqlCommand sqlCommand = new SqlCommand(SqlQuery, _mySqlConnection))
+                {
+                    sqlCommand.CommandType = System.Data.CommandType.Text;
+                    // sqlCommand.CommandTimeout = 180;
+
+                    sqlCommand.Parameters.AddWithValue("@PropertyOptions", request.PropertyOptions);
+                    sqlCommand.Parameters.AddWithValue("@PropertyType", request.PropertyType);
+                    sqlCommand.Parameters.AddWithValue("@PropertyArea", request.PropertyArea);
+                    sqlCommand.Parameters.AddWithValue("@Address", request.Address);
+                    sqlCommand.Parameters.AddWithValue("@State", request.State);
+                    sqlCommand.Parameters.AddWithValue("@City", request.City);
+                    sqlCommand.Parameters.AddWithValue("@Price", request.Price);                   
+                    sqlCommand.Parameters.AddWithValue("@ContactNo", request.ContactNo);
+                    sqlCommand.Parameters.AddWithValue("@Email", request.Email);
+                    sqlCommand.Parameters.AddWithValue("@ImageProperty", request.ImageProperty);
+
+
+
+                    int Status = await sqlCommand.ExecuteNonQueryAsync();
+
+                    if (Status <= 0)
+                    {
+                        response.IsSuccess = false;
+                        response.Message = "Register Query Not Executed";
+                        return response;
+                    }
+                }
+
             }
             catch (Exception ex)
             {
-                throw ex;
+                response.IsSuccess = false;
+                response.Message = ex.Message;
             }
-        }
-        [NonAction]
-        public async Task<string> saveImage(IFormFile Imagefile)
-        {
-            string imageName = new String(Path.GetFileNameWithoutExtension(Imagefile.FileName).Take(10).ToArray()).Replace(' ', '-');
-            imageName = imageName + DateTime.Now.ToString(" yymmssfff") + Path.GetExtension(Imagefile.FileName);
-            var imagePath = Path.Combine(_webHostEnvironment.ContentRootPath, "Images", imageName);
-
-            using (var fileStream = new FileStream(imagePath, FileMode.Create))
+            finally
             {
-                await Imagefile.CopyToAsync(fileStream);
+                await _mySqlConnection.CloseAsync();
+                await _mySqlConnection.DisposeAsync();
             }
-            return imageName;
+
+            return response;
+
         }
+
     }
 }

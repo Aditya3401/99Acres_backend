@@ -10,7 +10,7 @@ namespace _99Acres.Service.Interface.UserInterface
 {
     public interface IPostProperty
     {
-        public Task<string> PostPropertyDetails(PostPropertyRecord record);
-        public Task<string> saveImage(IFormFile Imagefile);
+        public Task<PostPropertyResponse> PostPropertyDetails(PostPropertyRecord request);
+    
     }
 }

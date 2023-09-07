@@ -20,9 +20,7 @@ namespace _99Acres.Service.Entities.PostProperty
         public double Price { get; set; }
         public string ContactNo { get; set; }
         public string Email { get; set; }
-
-        [NotMapped]
-        public IFormFile ImageFile { get; set; }
+        public string ImageProperty { get; set; }
     }
     public class PostPropertyResponse
     {

@@ -1,5 +1,8 @@
 ﻿using _99Acres.Service.Entities.PostProperty;
+using _99Acres.Service.Entities.User;
 using _99Acres.Service.Interface.UserInterface;
+using _99Acres.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace _99Acres.WebApi.Controllers.UserController
@@ -15,22 +18,23 @@ namespace _99Acres.WebApi.Controllers.UserController
             _postproperty = postproperty;
         }
         [HttpPost]
-        public async Task<IActionResult> PostFormEntry([FromForm] PostPropertyRecord record)
+        [AllowAnonymous]
+        public async Task<IActionResult> PostProperty(PostPropertyRecord request)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
+            PostPropertyResponse response = new PostPropertyResponse();
             try
             {
-                string propertyId = await _postproperty.PostPropertyDetails(record);
-                return Ok(propertyId);
+
+                response = await _postproperty.PostPropertyDetails(request);
+
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred: {ex.Message}");
+                response.IsSuccess = false;
+                response.Message = ex.Message;
             }
+
+            return Ok(response);
         }
     }
 }
