@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace _99Acres.Service.Entities.PostProperty
     public class PostPropertyRecord
     {
         public int PropertyId { get; set; }
+        public string PropertyName { get; set; }
         public string PropertyOptions { get; set; }
         public string PropertyType { get; set; }
         public float PropertyArea { get; set; }
@@ -31,6 +33,7 @@ namespace _99Acres.Service.Entities.PostProperty
     public class PostPropertyFetch
     {
         public int PropertyId { get; set; }
+        public string PropertyName { get; set; }
         public string PropertyOptions { get; set; }
         public string PropertyType { get; set; }
         public decimal PropertyArea { get; set; }

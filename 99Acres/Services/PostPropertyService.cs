@@ -48,14 +48,14 @@ namespace _99Acres.Services
                 }
 
                 string SqlQuery = @"INSERT INTO PostForm 
-                                    (PropertyOptions,PropertyType,PropertyArea,Address,State,City,Price,ContactNo,Email,ImageProperty) Values 
-                                    (@PropertyOptions, @PropertyType,@PropertyArea, @Address, @State, @City, @Price, @ContactNo, @Email, @ImageProperty);";
+                                    (PropertyName,PropertyOptions,PropertyType,PropertyArea,Address,State,City,Price,ContactNo,Email,ImageProperty) Values 
+                                    (@PropertyName, @PropertyOptions, @PropertyType,@PropertyArea, @Address, @State, @City, @Price, @ContactNo, @Email, @ImageProperty);";
 
                 using (SqlCommand sqlCommand = new SqlCommand(SqlQuery, _mySqlConnection))
                 {
                     sqlCommand.CommandType = System.Data.CommandType.Text;
                     // sqlCommand.CommandTimeout = 180;
-
+                    sqlCommand.Parameters.AddWithValue("@PropertyName", request.PropertyName);
                     sqlCommand.Parameters.AddWithValue("@PropertyOptions", request.PropertyOptions);
                     sqlCommand.Parameters.AddWithValue("@PropertyType", request.PropertyType);
                     sqlCommand.Parameters.AddWithValue("@PropertyArea", request.PropertyArea);
@@ -110,7 +110,7 @@ namespace _99Acres.Services
                     await _mySqlConnection.OpenAsync();
                 }
 
-                string selectQuery = @"SELECT PropertyId, PropertyOptions, PropertyType, PropertyArea, Address, State, City, Price, ContactNo, Email, ImageProperty
+                string selectQuery = @"SELECT PropertyId, PropertyName, PropertyOptions, PropertyType, PropertyArea, Address, State, City, Price, ContactNo, Email, ImageProperty
                FROM PostForm
                WHERE PropertyId = @PropertyId;";
 
@@ -124,6 +124,7 @@ namespace _99Acres.Services
                         await reader.ReadAsync();
 
                         response.PropertyId = reader.GetInt32(reader.GetOrdinal("PropertyId"));
+                        response.PropertyName = reader["PropertyName"].ToString();
                         response.PropertyOptions = reader["PropertyOptions"].ToString();
                         response.PropertyType = reader["PropertyType"].ToString();
                         response.PropertyArea = reader.GetDecimal(reader.GetOrdinal("PropertyArea"));
@@ -186,6 +187,7 @@ namespace _99Acres.Services
                             PostPropertyFetch property = new PostPropertyFetch
                             {
                                 PropertyId = reader.GetInt32(reader.GetOrdinal("PropertyId")),
+                                PropertyName = reader.GetString(reader.GetOrdinal("PropertyName")),
                                 PropertyOptions = reader.GetString(reader.GetOrdinal("PropertyOptions")).Trim(),
                                 PropertyType = reader.GetString(reader.GetOrdinal("PropertyType")).Trim(),
                                 PropertyArea = reader.GetDecimal(reader.GetOrdinal("PropertyArea")),
