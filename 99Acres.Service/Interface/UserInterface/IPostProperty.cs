@@ -11,6 +11,9 @@ namespace _99Acres.Service.Interface.UserInterface
     public interface IPostProperty
     {
         public Task<PostPropertyResponse> PostPropertyDetails(PostPropertyRecord request);
-    
+        public Task<PostPropertyResponse> GetProperty(int propertyId);
+        public Task<List<PostPropertyFetch>> GetAllProperties();
+
+        public Task<List<PostPropertyFetch>> FilterProperties(List<PostPropertyFetch> details, Filter filter);
     }
 }

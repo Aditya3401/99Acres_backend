@@ -19,7 +19,7 @@ namespace _99Acres.WebApi.Controllers.UserController
         }
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> PostProperty(PostPropertyRecord request)
+        public async Task<IActionResult> PostProperty([FromForm]PostPropertyRecord request)
         {
             PostPropertyResponse response = new PostPropertyResponse();
             try
@@ -35,6 +35,56 @@ namespace _99Acres.WebApi.Controllers.UserController
             }
 
             return Ok(response);
+        }
+        [HttpGet]
+     
+        public async Task<IActionResult> GetProperty(int propertyId)
+        {
+            PostPropertyResponse response = new PostPropertyResponse();
+            try
+            {
+
+                response = await _postproperty.GetProperty(propertyId);
+
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+
+            return Ok(response);
+        }
+
+        [HttpGet("Filter")]
+        public async Task<IActionResult> details([FromQuery] Filter filter)
+        {
+            try
+            {
+                var list = await _postproperty.GetAllProperties();
+                var filterList = await _postproperty.FilterProperties(list, filter);
+                return Ok(filterList);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPostFormDetails()
+        {
+            try
+            {
+                var list = await _postproperty.GetAllProperties();
+
+                return Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }
