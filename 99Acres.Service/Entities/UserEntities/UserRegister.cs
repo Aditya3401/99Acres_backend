@@ -24,4 +24,5 @@ namespace _99Acres.Service.Entities.User
         public bool IsSuccess { get; set; }
         public string Message { get; set; }
     }
+    
 }

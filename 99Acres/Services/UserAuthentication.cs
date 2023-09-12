@@ -28,14 +28,15 @@ namespace _99Acres.Services
         }
         public async Task<UserRegisterResponse> RegisterUser(UserRegisterRequest request)
         {
-            request.Password = BCrypt.Net.BCrypt.HashPassword(request.Password);
+            
             UserRegisterResponse response = new UserRegisterResponse();
             response.IsSuccess = true;
             response.Message = "SuccessFul";
 
             try
             {
-
+               
+                request.Password = BCrypt.Net.BCrypt.HashPassword(request.Password);
                 if (_mySqlConnection.State != System.Data.ConnectionState.Open)
                 {
                     await _mySqlConnection.OpenAsync();
@@ -98,6 +99,12 @@ namespace _99Acres.Services
             return response;
 
         }
+
+
+        
+
+
+
         public async Task<UserLoginResponse> LoginUser(UserLoginRequest request)
         {
             UserLoginResponse response = new UserLoginResponse();
