@@ -284,7 +284,7 @@ namespace _99Acres.Services
             message.Subject = "Password Reset";
 
             var builder = new BodyBuilder();
-            builder.HtmlBody = $"<a href='https://localhost:7240/EmployeeForgotPassword/ResetPassword/reset?token={resetToken}'>Click here to reset your password</a>";
+            builder.HtmlBody = $"<a href='https://99-acres.vercel.app/changepassword/reset?token={resetToken}'>Click here to reset your password</a>";
             message.Body = builder.ToMessageBody();
 
             using (var client = new SmtpClient())
